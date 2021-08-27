@@ -4,10 +4,13 @@ import {  Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+ })
 export class RecipeService {
     recipesChanged  = new Subject<Recipe[]>();
     ingredientsToShoppingList = new Subject<Ingredient[]>();
+   
     private recipes: Recipe[] = [
         new Recipe('A 1st recipe',
         'This is 1st a recipe test',
@@ -44,28 +47,39 @@ export class RecipeService {
        
       ];
       
-      constructor(private sLService:ShoppingListService){}
+      constructor(private sLService: ShoppingListService) {
+        console.log(123);
+      }
 
-      getRecipes(){
+      getRecipes() {
           return this.recipes.slice();
       }
-      getRecipe(index:number){
+
+      getRecipe(index: number) {
           return this.recipes[index];
       }
 
       addIngredienttoShoppingList(ingredients:Ingredient[]){
           this.sLService.addIngredients(ingredients);
       }
-      addRecipe(recipe : Recipe){
+
+      addRecipe(recipe: Recipe) {
         this.recipes.push(recipe);
         this.recipesChanged.next(this.recipes.slice());
       }
+
       updateRecipe(index:number, newRecipe: Recipe){
         this.recipes[index] = newRecipe;
         this.recipesChanged.next(this.recipes.slice());
       }
+      
       deleteRecipe(index: number){
-        this.recipes.splice(index,1);
+        this.recipes.splice(index, 1);
+        this.recipesChanged.next(this.recipes.slice());
+      }
+
+      setRecipes(recipes: Recipe[]){
+        this.recipes = recipes;
         this.recipesChanged.next(this.recipes.slice());
       }
 }

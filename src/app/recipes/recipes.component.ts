@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 
 import { Recipe } from './recipe.model';
 import { Component, OnInit } from '@angular/core';
@@ -8,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recipes.component.css']
 })
 export class RecipesComponent implements OnInit {
+  isAuthenticated = false;
   selectedRecipe:Recipe;
-  constructor() { }
+  constructor(private authService: AuthService) { }
   
-  ngOnInit() {
+  ngOnInit(){
+    this.authService.user.subscribe(user => {
+      this.isAuthenticated = !!user;
+    })
+  } 
    
-  }
 }

@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
     isAuthenticated = false;
     private userSub: Subscription;
     
-    constructor(private dataStorageService: DataStorageService, private authService: AuthService, router: Router){}
+    constructor(private dataStorageService: DataStorageService, private authService: AuthService){}
 
     ngOnInit(){
         this.authService.user.subscribe(user => {
@@ -35,5 +35,6 @@ export class HeaderComponent implements OnInit {
     }
     onLogout(){
         this.authService.logout();
+
     }
 }
